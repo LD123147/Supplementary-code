@@ -9,7 +9,7 @@ flow=0.01;   %in MHz
 filtrue=0;  % if you want to enable the filter, value is 1, otherwise value is 0.
 
 %parameters   --0-data collection
-name='Normal_with_reflector(52.9).lvm';            % name of your data
+name='Normal_with_reflector(53).lvm';            % name of your data
 n0=10000;                        % data length for each detector
 nd=180;                         % total number of detectors
 delay=0;                        % number of points delayed when you record the                              
@@ -99,4 +99,5 @@ for ntryy=1:ntry
     title(sprintf('%03f mm',R));
     %figure;
 end
+
 toc
