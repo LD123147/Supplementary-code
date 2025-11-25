@@ -4,9 +4,6 @@
 % close all;
 %parameters   ---data filtering
 tic;
-fhigh=1; 
-flow=0.01;   %in MHz
-filtrue=0;  % if you want to enable the filter, value is 1, otherwise value is 0.
 
 %parameters   --0-data collection
 name='Normal_with_reflector(53).lvm';            % name of your data
@@ -42,32 +39,6 @@ for i=1:180
    result(:,i)=aa(n0*(i-1)+1:n0*i);
 end
 
-
-%%%%data filtering
-if(filtrue==1)
-fhighn=floor(fhigh*n0*ntime);
-flown=floor(flow*n0*ntime);
-if(fhighn>n0/2)
-    fhighn=floor(n0/2)+1; 
-end
-if(flown<2)
-    flown=2;
-end
-sprintf('high=%d, low=%d',fhighn,flown)
-for i=1:nd    
-    temp1=zeros(n0,1);
-    temp=result(:,i);
-    temp=fft(temp);
-    for j=flown:fhighn
-        temp1(j)=temp(j);
-    end
-    temp1=ifft(temp1);
-    temp1=real(temp1);
-    result(:,i)=temp1;
-end
-end
-sprintf('filtering complete')
-
 %%%%image reconstruction and show
 nx=floor((x2-x1)/xd)+1;
 ny=floor((y2-y1)/yd)+1;
@@ -99,5 +70,4 @@ for ntryy=1:ntry
     title(sprintf('%03f mm',R));
     %figure;
 end
-
 toc
