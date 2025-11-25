@@ -2,25 +2,18 @@ clc
 clear
 close all
 
-%% 打开一个图片选择的界面
+%% Open an image selection interface
 uiopen
 obj = get(gca,'Children');      
 pics = get(obj,'CData'); 
-% pics= flipud(pics);
 x_limit = xlim ;
 y_limit = ylim ;
-% 
-% uiopen
-% obj = get(gca,'Children');      
-% pics2 = get(obj,'CData'); 
-
 [xx,yy] = size(pics);
 xd = 0.05 ; 
-yd = 0.05 ; %%%%%%%%%%%%%%%步进
+yd = 0.05 ; %%step
 xlabel=x_limit(1):xd:x_limit(2);
 ylabel=y_limit(1):yd:y_limit(2);
 
-%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%-------fitting-------%%%%%%%%%%%%%%%%%%%%%%%%%%
  [nn,mm]=size(pics);
     for i = 1 : nn
@@ -52,11 +45,11 @@ ylabel=y_limit(1):yd:y_limit(2);
 
     y0 = y0/floor(mm/10)+1 ;
 
-    f = fittype('a1.*x.^(-a2)'); % 拟合函数的形式
+    f = fittype('a1.*x.^(-a2)'); % Form of fitting function
     fit1 = fit(x0,y0,f,'StartPoint',[x0(1) y0(1)]);
-    a1 = fit1.a1; % a的值
-    a2 = abs(fit1.a2); % b的值
-    fdata = feval(fit1,x0); % 用拟合函数来计算y
+    a1 = fit1.a1; % The value of a
+    a2 = abs(fit1.a2); % The value of b
+    fdata = feval(fit1,x0); % Calculate y using a fitting function
 
     aa = min(fdata);
     if fdata(1) > fdata(end)
@@ -98,7 +91,6 @@ ylabel=y_limit(1):yd:y_limit(2);
 
             for i = 1 : nn
                 pics_l(i,:) = pics(i,:) * fdata_5(i) ;
-%                   pics_l(i,:) = pics(i,:) * 1 ;
             end
             pics_l = ( pics_l - min(min(pics_l)) ) / ( max(max(pics_l)) - min(min(pics_l)) ) ;
             figure;
@@ -107,7 +99,7 @@ ylabel=y_limit(1):yd:y_limit(2);
             colormap(parula);
             daspect([1 1 1]);
 %             axis equal;
-            title(sprintf('对数补偿'));
+            title(sprintf('Log compensation'));
     %         if saves_if == 1
     %             saveas(gcf,dir0_3,'fig');
     %         end
@@ -214,17 +206,4 @@ ylabel=y_limit(1):yd:y_limit(2);
     colormap(gray);
     daspect([1 1 1]);
 %     axis equal
-    title(sprintf('对数+MSR补偿'));
-
-%     pics1=J./pics_l;
-
-%     pics2(pics2>0.3)=0.3;
-%  pics_l = ( pics_l - min(min(pics_l)) ) / ( max(max(pics_l)) - min(min(pics_l)) ) ;
-% 
-%     pics3=pics2.*pics_l;
-%    pics3 = ( pics3 - min(min(pics3)) ) / ( max(max(pics3)) - min(min(pics3)) ) ;
-%     figure ;
-%     imagesc(xlabel,ylabel,pics3) ;
-%     colorbar ;
-%     colormap(gray);
-%     title(sprintf('end'));
+    title(sprintf('Log+MSR compensation'));
